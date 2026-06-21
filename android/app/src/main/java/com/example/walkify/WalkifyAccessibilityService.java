@@ -16,6 +16,29 @@ public class WalkifyAccessibilityService extends AccessibilityService {
             if (packageNameSeq != null) {
                 String packageName = packageNameSeq.toString();
                 Log.d(TAG, "Opened app: " + packageName);
+                
+                try {
+                    // Update foreground package name in shared state
+                    SharedBlockerState state = SharedBlockerState.getInstance(this);
+                    state.setCurrentForegroundPackage(packageName);
+                    
+                    if (state.isBlockingEnabled()) {
+                        boolean isBlocked = state.getBlockedPackages().contains(packageName);
+                        if (isBlocked) {
+                            if (state.getMinutes() <= 0.0) {
+                                OverlayManager.getInstance(this).showOverlay();
+                            } else {
+                                OverlayManager.getInstance(this).hideOverlay();
+                            }
+                        } else {
+                            OverlayManager.getInstance(this).hideOverlay();
+                        }
+                    } else {
+                        OverlayManager.getInstance(this).hideOverlay();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error in accessibility event processing", e);
+                }
             }
         }
     }
@@ -29,5 +52,7 @@ public class WalkifyAccessibilityService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
         Log.d(TAG, "Service connected");
+        SharedBlockerState.getInstance(this);
     }
 }
+

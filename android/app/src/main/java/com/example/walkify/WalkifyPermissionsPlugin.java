@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import java.util.HashSet;
+import java.util.Set;
 
 @CapacitorPlugin(name = "WalkifyPermissions")
 public class WalkifyPermissionsPlugin extends Plugin {
@@ -113,5 +116,80 @@ public class WalkifyPermissionsPlugin extends Plugin {
                 android.content.pm.PackageManager.PERMISSION_GRANTED;
         }
         return true;
+    }
+
+    @PluginMethod
+    public void setBlockedApps(PluginCall call) {
+        try {
+            JSArray packages = call.getArray("packages");
+            if (packages != null) {
+                Set<String> packageSet = new HashSet<>();
+                for (int i = 0; i < packages.length(); i++) {
+                    packageSet.add(packages.getString(i));
+                }
+                SharedBlockerState.getInstance(getContext()).setBlockedPackages(packageSet);
+                call.resolve();
+            } else {
+                call.reject("Missing packages array");
+            }
+        } catch (Exception e) {
+            call.reject("Error setting blocked apps: " + e.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void setBalance(PluginCall call) {
+        try {
+            Double minutes = call.getDouble("minutes");
+            if (minutes != null) {
+                SharedBlockerState.getInstance(getContext()).setMinutes(minutes);
+                call.resolve();
+            } else {
+                call.reject("Missing minutes value");
+            }
+        } catch (Exception e) {
+            call.reject("Error setting balance: " + e.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void getBalance(PluginCall call) {
+        try {
+            SharedBlockerState state = SharedBlockerState.getInstance(getContext());
+            JSObject ret = new JSObject();
+            ret.put("minutes", state.getMinutes());
+            ret.put("steps", state.getSteps());
+            call.resolve(ret);
+        } catch (Exception e) {
+            call.reject("Error getting balance: " + e.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void startBlockingService(PluginCall call) {
+        try {
+            SharedBlockerState.getInstance(getContext()).setBlockingEnabled(true);
+            Intent serviceIntent = new Intent(getContext(), WalkifyForegroundService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                getContext().startForegroundService(serviceIntent);
+            } else {
+                getContext().startService(serviceIntent);
+            }
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Error starting service: " + e.getMessage());
+        }
+    }
+
+    @PluginMethod
+    public void stopBlockingService(PluginCall call) {
+        try {
+            SharedBlockerState.getInstance(getContext()).setBlockingEnabled(false);
+            Intent serviceIntent = new Intent(getContext(), WalkifyForegroundService.class);
+            getContext().stopService(serviceIntent);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Error stopping service: " + e.getMessage());
+        }
     }
 }

@@ -164,3 +164,34 @@ export async function openPermissionSettings(id) {
 		await permPlugin[step.openMethod]();
 	}
 }
+
+export async function setBlockedApps(packages) {
+	const permPlugin = getPermPlugin();
+	if (!permPlugin) return;
+	await permPlugin.setBlockedApps({ packages });
+}
+
+export async function setBalance(minutes) {
+	const permPlugin = getPermPlugin();
+	if (!permPlugin) return;
+	await permPlugin.setBalance({ minutes });
+}
+
+export async function getBalance() {
+	const permPlugin = getPermPlugin();
+	if (!permPlugin) return { minutes: 0, steps: 0 };
+	return await permPlugin.getBalance();
+}
+
+export async function startBlockingService() {
+	const permPlugin = getPermPlugin();
+	if (!permPlugin) return;
+	await permPlugin.startBlockingService();
+}
+
+export async function stopBlockingService() {
+	const permPlugin = getPermPlugin();
+	if (!permPlugin) return;
+	await permPlugin.stopBlockingService();
+}
+
