@@ -49,11 +49,11 @@ public class WalkifyForegroundService extends Service implements SensorEventList
                             Log.d(TAG, "Blocked app in foreground: " + fgApp + ". Decremented minutes. Remaining: " + minutes);
                         }
 
-                        // If minutes reached 0, display overlay
+                        // If minutes reached 0, launch our app with blocked screen
                         if (minutes <= 0.0) {
-                            OverlayManager.getInstance(getApplicationContext()).showOverlay();
-                        } else {
-                            OverlayManager.getInstance(getApplicationContext()).hideOverlay();
+                            Intent launchIntent = new Intent(getApplicationContext(), MainActivity.class);
+                            launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            getApplicationContext().startActivity(launchIntent);
                         }
                     }
                 }
@@ -125,7 +125,6 @@ public class WalkifyForegroundService extends Service implements SensorEventList
             sensorManager.unregisterListener(this);
         }
         handler.removeCallbacks(decrementRunnable);
-        OverlayManager.getInstance(this).hideOverlay();
     }
 
     @Override

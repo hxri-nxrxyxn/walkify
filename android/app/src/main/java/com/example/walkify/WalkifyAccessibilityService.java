@@ -1,6 +1,7 @@
 package com.example.walkify;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.Intent;
 import android.view.accessibility.AccessibilityEvent;
 import android.util.Log;
 
@@ -18,23 +19,21 @@ public class WalkifyAccessibilityService extends AccessibilityService {
                 Log.d(TAG, "Opened app: " + packageName);
                 
                 try {
-                    // Update foreground package name in shared state
+                    // Update foreground package name in shared state (if not our own app)
                     SharedBlockerState state = SharedBlockerState.getInstance(this);
-                    state.setCurrentForegroundPackage(packageName);
+                    if (!packageName.equals(getPackageName())) {
+                        state.setCurrentForegroundPackage(packageName);
+                    }
                     
                     if (state.isBlockingEnabled()) {
                         boolean isBlocked = state.getBlockedPackages().contains(packageName);
                         if (isBlocked) {
                             if (state.getMinutes() <= 0.0) {
-                                OverlayManager.getInstance(this).showOverlay();
-                            } else {
-                                OverlayManager.getInstance(this).hideOverlay();
+                                Intent launchIntent = new Intent(this, MainActivity.class);
+                                launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(launchIntent);
                             }
-                        } else {
-                            OverlayManager.getInstance(this).hideOverlay();
                         }
-                    } else {
-                        OverlayManager.getInstance(this).hideOverlay();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Error in accessibility event processing", e);

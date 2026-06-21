@@ -159,6 +159,8 @@ public class WalkifyPermissionsPlugin extends Plugin {
             JSObject ret = new JSObject();
             ret.put("minutes", state.getMinutes());
             ret.put("steps", state.getSteps());
+            ret.put("foregroundPackage", state.getCurrentForegroundPackage());
+            ret.put("blockingEnabled", state.isBlockingEnabled());
             call.resolve(ret);
         } catch (Exception e) {
             call.reject("Error getting balance: " + e.getMessage());
