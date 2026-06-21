@@ -82,3 +82,12 @@
   - Added fallback: 'index.html' to adapter-static config (SPA mode) to support client-side routing across /setup and /home.
   - Added per-page +page.js files to disable prerendering for runtime-dependent pages.
 - Answered the user's question regarding background step tracking with a persistent notification (via Android Foreground Service), outlining the architecture and awaiting confirmation to proceed.
+- Initialized git repository, added remote origin `https://github.com/hxri-nxrxyxn/walkify.git`, committed all files, and pushed to the main branch.
+- Created `SharedBlockerState.java` to share and persist minutes balance, steps, blocklist packages, and blocker state across app components.
+- Created `OverlayManager.java` to dynamically construct and display a full-screen window overlay over blocked apps when the scroll minutes balance is exhausted.
+- Created `WalkifyForegroundService.java` to run in the background with a sticky notification, handle native step-counter listeners with cadence filtering, and manage the 1-second balance decrement interval for blocked apps.
+- Updated `WalkifyAccessibilityService.java` to record the active foreground application package name in shared state and toggle the block overlay display.
+- Declared the background service in `AndroidManifest.xml`.
+- Implemented corresponding Capacitor plugin endpoints in `WalkifyPermissionsPlugin.java` and their JS helper bindings in `src/lib/permissions.js`.
+- Rewrote `src/routes/home/+page.svelte` in Svelte 5 to manage the service, view real-time steps and minutes parsed from the native background service, configure blocked apps, and provide test buttons to add or clear minutes.
+- Verified successful clean build, synced assets, successfully compiled Java sources via Gradle (`./gradlew compileDebugJavaWithJavac`), and pushed all commits to the remote GitHub repository.
