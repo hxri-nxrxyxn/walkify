@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MOTION | Locked Experience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #000000;
+            color: #e2e2e2;
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+        }
+        .glass-blur {
+            backdrop-filter: blur(60px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .tap-highlight-none {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed": "#001f28",
+                    "inverse-on-surface": "#303030",
+                    "on-error": "#690005",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#4d4e53",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#e2e2e2",
+                    "inverse-surface": "#e2e2e2",
+                    "outline-variant": "#3c494e",
+                    "outline": "#859399",
+                    "tertiary-container": "#c0c0c5",
+                    "on-tertiary-fixed-variant": "#46464b",
+                    "tertiary-fixed-dim": "#c6c6cb",
+                    "secondary-container": "#454747",
+                    "surface-container": "#1f1f1f",
+                    "on-tertiary-fixed": "#1a1b1f",
+                    "surface-bright": "#393939",
+                    "secondary": "#c6c6c7",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-secondary-fixed-variant": "#454747",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-secondary-container": "#b4b5b5",
+                    "surface-container-high": "#2a2a2a",
+                    "surface-container-highest": "#353535",
+                    "tertiary": "#dddce1",
+                    "on-tertiary": "#2f3034",
+                    "surface-variant": "#353535",
+                    "error-container": "#93000a",
+                    "surface-dim": "#131313",
+                    "tertiary-fixed": "#e3e2e7",
+                    "inverse-primary": "#00677f",
+                    "primary": "#a4e6ff",
+                    "surface-tint": "#4cd6ff",
+                    "surface-container-low": "#1b1b1b",
+                    "primary-fixed": "#b7eaff",
+                    "on-secondary": "#2f3131",
+                    "primary-fixed-dim": "#4cd6ff",
+                    "primary-container": "#00d1ff",
+                    "on-primary-fixed-variant": "#004e60",
+                    "surface": "#131313",
+                    "on-surface-variant": "#bbc9cf",
+                    "on-primary": "#003543",
+                    "on-surface": "#e2e2e2",
+                    "background": "#131313",
+                    "on-primary-container": "#00566a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "section-gap": "64px",
+                    "gutter": "16px",
+                    "stack-tight": "4px",
+                    "stack-loose": "24px",
+                    "margin-safe": "32px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Inter"],
+                    "display-hero-mobile": ["Inter"],
+                    "label-caps": ["Inter"],
+                    "numeral-xl": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-hero": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["24px", {"lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "display-hero-mobile": ["56px", {"lineHeight": "56px", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "numeral-xl": ["120px", {"lineHeight": "110px", "letterSpacing": "-0.05em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "400"}],
+                    "display-hero": ["80px", {"lineHeight": "80px", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+<!-- Ambient Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_2 class="absolute inset-0 w-full h-full opacity-40 mix-blend-screen pointer-events-none" -->
+<div class="absolute inset-0 w-full h-full opacity-40 mix-blend-screen pointer-events-none" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_2" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_2');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+
+void main() {
+    vec2 uv = v_texCoord;
+    
+    // Create a very subtle, slow-moving dark gradient "vapor"
+    // This adds depth to the #000000 background without breaking the "Pure Black" rule
+    float noise = sin(uv.x * 2.0 + u_time * 0.2) * cos(uv.y * 2.0 + u_time * 0.3);
+    float glow = smoothstep(0.0, 0.8, noise * 0.1);
+    
+    // Electric blue tint, kept extremely dark and subtle
+    vec3 color1 = vec3(0.0, 0.0, 0.0);
+    vec3 color2 = vec3(0.0, 0.02, 0.05); // Barely perceptible blue depth
+    
+    vec3 finalColor = mix(color1, color2, glow);
+    
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_2 -->
+<!-- Top Navigation Anchor (Suppressed for transactional focus, but using Brand Logo for Context) -->
+<header class="fixed top-0 w-full z-50 flex justify-center py-gutter pointer-events-none">
+<span class="font-label-caps text-label-caps tracking-widest text-on-surface opacity-30">MOTION</span>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-start px-margin-safe relative z-10 pt-32 pb-48 max-w-lg mx-auto md:mx-0 md:pl-margin-safe">
+<!-- App Identity -->
+<div class="mb-stack-loose">
+<span class="font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">INSTAGRAM</span>
+</div>
+<!-- Headline Interruption -->
+<div class="flex flex-col gap-2 mb-section-gap">
+<h1 class="font-display-hero-mobile text-display-hero-mobile md:font-display-hero md:text-display-hero text-white tracking-tighter">
+                Locked
+            </h1>
+<div class="w-12 h-1 bg-primary-container rounded-full mt-4"></div>
+</div>
+<!-- Large Numerical Displays (Bento-style Minimal Stack) -->
+<div class="flex flex-col gap-12 w-full">
+<div class="flex flex-col items-start group">
+<div class="flex items-baseline gap-2">
+<span class="font-numeral-xl text-[80px] md:text-numeral-xl leading-none text-on-surface group-hover:text-primary transition-colors duration-500">8</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant opacity-60">MINUTES</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant/40 mt-2">Needed to unlock feed</p>
+</div>
+<div class="flex flex-col items-start group">
+<div class="flex items-baseline gap-2">
+<span class="font-numeral-xl text-[64px] md:text-[96px] leading-none text-on-surface group-hover:text-primary transition-colors duration-500">1,142</span>
+<span class="font-label-caps text-label-caps text-on-surface-variant opacity-60">STEPS</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant/40 mt-2">Away from your goal</p>
+</div>
+</div>
+</main>
+<!-- Action Section -->
+<div class="fixed bottom-0 w-full px-margin-safe pb-16 z-50 flex flex-col items-center gap-stack-loose max-w-lg mx-auto md:mx-0 md:left-0">
+<!-- Primary Action -->
+<button class="w-full h-[64px] bg-white hover:bg-primary-container transition-all duration-300 rounded-none flex items-center justify-center tap-highlight-none group">
+<span class="font-label-caps text-label-caps text-black tracking-widest">[ WALK NOW ]</span>
+</button>
+<!-- Secondary Dismissal / Quiet Action -->
+<button class="font-label-caps text-[10px] text-on-surface-variant/30 hover:text-on-surface transition-colors tracking-widest uppercase py-2">
+            Return to Focus
+        </button>
+</div>
+<!-- Micro-interaction / Locked Indicator -->
+<div class="fixed top-gutter right-margin-safe z-50 opacity-40">
+<span class="material-symbols-outlined text-primary text-[24px]">lock_clock</span>
+</div>
+<!-- Navigation suppressed per protocol (Task-Focused screen) -->
+<script>
+        // Subtle micro-interactions for the "Breathability"
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Subtly shift background glow or intensity based on mouse movement
+            // This adds to the "Editorial / Luxury" feel without being distracting
+        });
+
+        // Button tap logic
+        const walkBtn = document.querySelector('button');
+        walkBtn.addEventListener('mousedown', () => {
+            walkBtn.style.transform = 'scale(0.98)';
+        });
+        walkBtn.addEventListener('mouseup', () => {
+            walkBtn.style.transform = 'scale(1)';
+        });
+    </script>
+</body></html>

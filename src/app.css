@@ -1,0 +1,314 @@
+/* MOTION Design System Tokens */
+:root {
+	/* Colors */
+	--color-background: #000000;
+	--color-surface: #131313;
+	--color-surface-dim: #131313;
+	--color-surface-bright: #393939;
+	--color-surface-container-lowest: #0e0e0e;
+	--color-surface-container-low: #1b1b1b;
+	--color-surface-container: #1f1f1f;
+	--color-surface-container-high: #2a2a2a;
+	--color-surface-container-highest: #353535;
+	--color-on-surface: #e2e2e2;
+	--color-on-surface-variant: #bbc9cf;
+	--color-inverse-surface: #e2e2e2;
+	--color-inverse-on-surface: #303030;
+	--color-outline: #859399;
+	--color-outline-variant: #3c494e;
+	--color-surface-tint: #4cd6ff;
+	--color-primary: #a4e6ff;
+	--color-on-primary: #003543;
+	--color-primary-container: #00d1ff;
+	--color-on-primary-container: #00566a;
+	--color-inverse-primary: #00677f;
+	--color-secondary: #c6c6c7;
+	--color-on-secondary: #2f3131;
+	--color-secondary-container: #454747;
+	--color-on-secondary-container: #b4b5b5;
+	--color-tertiary: #dddce1;
+	--color-on-tertiary: #2f3034;
+	--color-tertiary-container: #c0c0c5;
+	--color-on-tertiary-container: #4d4e53;
+	--color-error: #ffb4ab;
+	--color-on-error: #690005;
+	--color-error-container: #93000a;
+	--color-on-error-container: #ffdad6;
+	--color-primary-fixed: #b7eaff;
+	--color-primary-fixed-dim: #4cd6ff;
+	--color-on-primary-fixed: #001f28;
+	--color-on-primary-fixed-variant: #004e60;
+	--color-secondary-fixed: #e2e2e2;
+	--color-secondary-fixed-dim: #c6c6c7;
+	--color-on-secondary-fixed: #1a1c1c;
+	--color-on-secondary-fixed-variant: #454747;
+	--color-tertiary-fixed: #e3e2e7;
+	--color-tertiary-fixed-dim: #c6c6cb;
+	--color-on-tertiary-fixed: #1a1b1f;
+	--color-on-tertiary-fixed-variant: #46464b;
+
+	/* Rounded borders */
+	--rounded-sm: 0.125rem;
+	--rounded-default: 0.25rem;
+	--rounded-md: 0.375rem;
+	--rounded-lg: 0.5rem;
+	--rounded-xl: 0.75rem;
+	--rounded-full: 9999px;
+
+	/* Spacing */
+	--spacing-unit: 8px;
+	--spacing-margin-safe: 32px;
+	--spacing-gutter: 16px;
+	--spacing-section-gap: 64px;
+	--spacing-stack-tight: 4px;
+	--spacing-stack-loose: 24px;
+}
+
+/* Global Reset & Base */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	background-color: var(--color-background);
+	color: var(--color-on-surface);
+	font-family: 'Inter', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+}
+
+body {
+	min-height: 100dvh;
+}
+
+/* Typography styles matching DESIGN.md */
+.font-display-hero {
+	font-size: 80px;
+	font-weight: 700;
+	line-height: 80px;
+	letter-spacing: -0.04em;
+}
+
+.font-display-hero-mobile {
+	font-size: 56px;
+	font-weight: 700;
+	line-height: 56px;
+	letter-spacing: -0.04em;
+}
+
+.font-headline-lg {
+	font-size: 32px;
+	font-weight: 600;
+	line-height: 40px;
+	letter-spacing: -0.02em;
+}
+
+.font-headline-lg-mobile {
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 30px;
+	letter-spacing: -0.02em;
+}
+
+.font-body-lg {
+	font-size: 18px;
+	font-weight: 400;
+	line-height: 28px;
+	letter-spacing: -0.01em;
+}
+
+.font-body-md {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	letter-spacing: 0em;
+}
+
+.font-label-caps {
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 16px;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.font-numeral-xl {
+	font-size: 120px;
+	font-weight: 700;
+	line-height: 110px;
+	letter-spacing: -0.05em;
+}
+
+/* Material Symbols Integration */
+.material-symbols-outlined {
+	font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+	display: inline-block;
+	vertical-align: middle;
+	user-select: none;
+}
+
+/* Micro-animations and Transitions */
+.reveal {
+	animation: revealUp 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+	opacity: 0;
+}
+
+.fade-in {
+	animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	opacity: 0;
+}
+
+@keyframes revealUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pulse-opacity {
+	0%, 100% { opacity: 0.4; }
+	50% { opacity: 0.8; }
+}
+
+.animate-unit {
+	animation: pulse-opacity 3s ease-in-out infinite;
+}
+
+/* Common UI Elements */
+.blur-shell {
+	backdrop-filter: blur(60px);
+	-webkit-backdrop-filter: blur(60px);
+}
+
+.glass-nav {
+	background: rgba(19, 19, 19, 0.6);
+	backdrop-filter: blur(60px);
+	-webkit-backdrop-filter: blur(60px);
+	border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.interactive-element {
+	transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.interactive-element:active {
+	transform: scale(0.98);
+}
+
+.tap-highlight-none {
+	-webkit-tap-highlight-color: transparent;
+}
+
+.counter-glow {
+	text-shadow: 0 0 40px rgba(164, 230, 255, 0.25);
+}
+
+/* Custom Buttons conforming to DESIGN.md */
+.btn-primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 64px;
+	padding: 0 32px;
+	background-color: #ffffff;
+	color: #000000;
+	font-family: 'Inter', sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	width: 100%;
+}
+
+.btn-primary:hover {
+	background-color: var(--color-primary-container);
+}
+
+.btn-primary:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.btn-secondary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 64px;
+	padding: 0 32px;
+	background-color: transparent;
+	color: #ffffff;
+	font-family: 'Inter', sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	border: 1px solid #ffffff;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	width: 100%;
+}
+
+.btn-secondary:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+/* Minimal inputs matching DESIGN.md */
+.input-minimal {
+	width: 100%;
+	background: transparent;
+	border: none;
+	border-bottom: 1px solid var(--color-outline-variant);
+	padding: 12px 4px;
+	color: var(--color-on-surface);
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	transition: border-bottom-color 0.2s ease;
+}
+
+.input-minimal:focus {
+	outline: none;
+	border-bottom-color: var(--color-primary);
+}
+
+.input-minimal::placeholder {
+	color: var(--color-outline);
+}
+
+/* Navigation items */
+.nav-item-active::after {
+	content: '';
+	display: block;
+	width: 4px;
+	height: 4px;
+	background-color: var(--color-primary-container);
+	border-radius: 50%;
+	margin-top: 4px;
+}

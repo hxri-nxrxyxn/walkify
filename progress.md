@@ -102,3 +102,36 @@
   - Modified [src/routes/+layout.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+layout.svelte) to check block status periodically, on visibility change, and on initial mount, automatically routing to `/blocked` when appropriate.
   - Recompiled the web application, ran `npx cap sync` to update native Android resources, verified clean compilation via Gradle `./gradlew compileDebugJavaWithJavac`, committed changes, and pushed them to GitHub repository.
 
+## Updates - 2026-06-21 (UI & Design Implementation)
+- Implemented the premium MOTION design system in the SvelteKit application:
+  - Updated [src/app.html](file:///Users/harinarayan/code/web/walkify/src/app.html) to link the Google Fonts Inter family, Material Symbols Outlined stylesheet, and set `class="dark"` on the HTML container.
+  - Created [src/app.css](file:///Users/Users/harinarayan/code/web/walkify/src/app.css) containing all CSS custom properties mapping the MOTION palette (electric blue primary, pure black background, obsidian blurs), typography resets (Display Hero, Numeral XL, Label Caps), keyframe animations (`revealUp`, `fadeIn`, `pulse-opacity`), custom button variants, and inputs.
+  - Created [src/lib/AmbientShader.svelte](file:///Users/harinarayan/code/web/walkify/src/lib/AmbientShader.svelte) component to run the dark blue WebGL vapor shader in the background, matching screen resizing dynamically and responding to mouse movements with subtle parallax.
+  - Upgraded [src/routes/+layout.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/+layout.svelte) as the global app layout with context-aware navigation. Suppresses headers and the bottom nav bar on transactional screens (blocked, setup, loader). Refactored layout styling from Tailwind utility classes to scoped vanilla CSS to restore layout alignment, header spacing, and navigation bar glassmorphism. Removed the settings icon/tab from the bottom navigation completely to simplify the navigation bar.
+  - Redesigned [src/routes/home/+page.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/home/+page.svelte) to exactly match the borderless, cardless vertical stack MOTION dashboard: displays large minutes balance, active step progress, and protected app lists styled with brand-specific SVG elements from Simple Icons. Removed debug toggle buttons, simulator panels, and warning labels from the main dashboard to establish a clean, polished production layout.
+  - Redesigned [src/routes/blocked/+page.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/blocked/+page.svelte) to match the instagram_locked mockup: displays the dynamic name of the blocked application, required minutes/steps away from the goal, and includes buttons to trigger the walk or return to focus.
+  - Redesigned [src/routes/setup/+page.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/setup/+page.svelte) to align with MOTION: features descriptive steppers, progress filling based on setup progress, and clean primary action calls.
+  - Created the history route ([src/routes/history/+page.js](file:///Users/harinarayan/code/web/walkify/src/routes/history/+page.js), [src/routes/history/+page.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/history/+page.svelte)) to match the statistics mockup: includes metrics for weekly earned minutes, hours reclaimed, and an asymmetric bento grid showing spent minutes and streak indicators.
+  - Created the walking HUD route ([src/routes/home/walking/+page.js](file:///Users/harinarayan/code/web/walkify/src/routes/home/walking/+page.js), [src/routes/home/walking/+page.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/home/walking/+page.svelte)) matching the active walking mockup: includes active status pulsing badges, live native stats polling, and an organic step simulator for web demo contexts.
+  - Redesigned [src/routes/+page.svelte](file:///Users/harinarayan/code/web/walkify/src/routes/+page.svelte) with a glowing, premium loading screen.
+  - Executed `npm install` and `npm run build` to confirm 100% build compatibility across all newly added and redesigned components.
+
+## Updates - 2026-06-21 (Refactoring & Code Quality Audit Fixes)
+- Conducted a thorough codebase audit and resolved several architectural and UI issues:
+  - Refactored `homeController.js` and `src/routes/home/+page.svelte` to remove the DOM polling 300ms loop. Introduced a clean update callback in the controller, allowing Svelte to bind states (`currentBalance` and `currentSteps`) reactively and update elements directly.
+  - Consolidated restricted app friendly name resolution logic by creating a unified `src/lib/appRegistry.js` module, eliminating duplication in `AppIcon.svelte`, `home/+page.svelte`, and `blocked/+page.svelte`.
+  - Upgraded WebGL vapor shader in `src/lib/AmbientShader.svelte` to declare and bind the `u_mouse` uniform, changing the listener from `mousemove` to `pointermove` to support touch/drag interactions on both mobile and desktop screens with a modern, reactive glowing vapor trail.
+  - Corrected Tailwind class leak in the root loader page `src/routes/+page.svelte` by replacing `tracking-[0.3em]` with clean CSS `letter-spacing: 0.3em`.
+  - Fixed `grid-template-cols` typo in `src/routes/history/+page.svelte` style sheet to `grid-template-columns`, restoring the side-by-side bento layout of spent minutes and active streak.
+  - Addressed mock alerts on the statistics screen by replacing the simulated download action with a disabled state indicating `[ REPORT GENERATES SUNDAY ]`, maintaining clean minimalism.
+  - Cleaned up dead/unused imports (`addMinute`, `clearBalance`) in the home dashboard.
+
+## Updates - 2026-06-21 (Fuzzy Search, App Locking, and Visual Refinements)
+- Implemented user requested app search, manual lock overrides, and clean visual adjustments:
+  - Added a "Lock Apps Now" manual override button to the home screen balance display. It allows users to immediately clear their active minute balance to lock restricted apps instantly.
+  - Replaced the raw package text input in the Protected Apps form with a fuzzy search component querying an expanded registry. Added brand SVGs in `AppIcon.svelte` for Reddit, Snapchat, Netflix, Twitch, Pinterest, and LinkedIn.
+  - Cleaned up restricted app item rows by completely removing the status lock icons, simplifying the layout into a cardless, list-first format.
+  - Confirmed 100% build compatibility and synchronized client updates via `npm run build` and `npx cap sync`.
+
+
+
