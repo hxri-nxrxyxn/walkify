@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">walkify</string>
+    <string name="title_activity_main">walkify</string>
+    <string name="package_name">com.example.walkify</string>
+    <string name="custom_url_scheme">com.example.walkify</string>
+    <string name="accessibility_service_description">Walkify uses this service to detect when social media or blocked apps are opened and display a lock overlay screen if you have run out of doomscroll minutes.</string>
+</resources>

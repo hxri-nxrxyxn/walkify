@@ -1,0 +1,84 @@
+# Progress
+
+- [x] Create HTML file with a centered 4-digit number using Flexbox layout and raw semantic HTML
+- [x] Open index.html in Google Chrome
+- [x] Use Inter font via @import from Google Fonts
+- [x] Migrate to SvelteKit SPA
+- [x] Open SvelteKit SPA in Google Chrome
+- [x] Install Capacitor dependencies
+- [x] Initialize Capacitor project
+- [x] Run SvelteKit build (`npm run build`)
+- [x] Add Android platform and sync (`npx cap add android`, `npx cap sync`)
+- [x] Open Android Studio (`npx cap open android`)
+- [x] Search for step tracking Capacitor extensions and install `@capgo/capacitor-pedometer`
+- [x] Add `ACTIVITY_RECOGNITION` permission to `AndroidManifest.xml`
+- [x] Implement Svelte 5 state integration with the pedometer plugin in `src/routes/+page.svelte`
+- [x] Compile SvelteKit and sync native assets to Android Studio
+- [x] Fix `isAvailable` checking from `.steps` to `.stepCounting` and handle runtime permission requests
+- [x] Adjust step tracker to start at 0, display 'Warming up...' during sensor startup, keep text centered, and manage lifecycles
+- [x] Implement cadence-filtering to mitigate false steps from shaking
+- [x] Strip all CSS styles, replace Svelte directives with vanilla JavaScript DOM updates, change the starting state label to 'Awaiting movement...', and add inactivity (Stationary state) detection
+- [x] Avoid displaying "Not implemented on web" error in web browser context by checking `Capacitor.isNativePlatform()` before initializing the native pedometer plugin.
+- [x] Remove mock counting mode entirely, ensuring steps never increment when there is no native sensor motion.
+- [x] Install `@capacitor/geolocation` and add location permissions to AndroidManifest.xml
+- [x] Implement 4-layer anti-cheat: cadence lower bound, step interval CoV, GPS velocity gating, daily step cap
+- [x] Add steps-to-minutes earning conversion (100 steps = 1 scroll minute), persisted daily in localStorage
+- [x] Create `WalkifyPermissionsPlugin.kt` — custom Capacitor plugin to check/open settings for Usage Access, Overlay, Accessibility, and Notifications permissions
+- [x] Register plugin in `MainActivity.java`, add all required permissions to `AndroidManifest.xml`
+- [x] Add permissions setup section to `+page.svelte` with status indicators and buttons that deep-link to the correct Android settings screens
+
+## Updates - 2026-06-21
+- Created index.html with a centered 4-digit number (`2026`).
+- Used semantic `<main>` and `<h1>` elements.
+- Implemented vertical and horizontal centering using Flexbox via a `<style>` block to adhere to the preference for Flexbox layout over HTML tables, while avoiding any additional CSS styling or `style` attributes.
+- Opened index.html in Google Chrome browser.
+- Added `@import` for Google Fonts Inter and applied the `Inter` font-family to the page.
+- Initialized a SvelteKit project in the workspace configured as an SPA (static adapter, client-side routing, prerender = true, ssr = false).
+- Re-created the centered 4-digit number layout and the Inter font styling inside [src/routes/+layout.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+layout.svelte) and [src/routes/+page.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+page.svelte).
+- Started the SvelteKit development server and opened the site at `http://localhost:5174/` in Google Chrome.
+- Installed Capacitor core, CLI, and Android packages.
+- Configured Capacitor with app name `walkify` and app ID `com.example.walkify` pointing to the `build` directory.
+- Ran SvelteKit production build (`npm run build`).
+- Added the Android platform and synchronized the compiled web assets into the Android native project.
+- Opened the project in Android Studio.
+- Selected `@capgo/capacitor-pedometer` for native Android step sensor (`TYPE_STEP_COUNTER`) integration.
+- Added `<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />` to [AndroidManifest.xml](file:///home/hari/junk/code/web/walkify/android/app/src/main/AndroidManifest.xml) to authorize access to motion activity data.
+- Refactored [src/routes/+page.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+page.svelte) to display the live step count (padded to a 4-digit string) retrieved from the pedometer event stream, with automatic graceful fallback to mock accumulator updates if running in a web browser context.
+- Ran `npm run build` and `npx cap sync` to compile the new step counter page and sync it to the Android studio workspace.
+- Fixed a bug where checking sensor availability read the non-existent `.steps` field on the API return type instead of `.stepCounting`.
+- Added logic in [src/routes/+page.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+page.svelte) to request the native `activityRecognition` runtime permissions required by Android 10+ devices.
+- Refactored [src/routes/+page.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+page.svelte) to:
+  - Base the session count at `0` by capturing the first sensor reading as a baseline.
+  - Show a "Warming up..." state until the first sensor data arrives.
+  - Ensure all layout and sub-elements remain perfectly centered globally using `text-align: center` on the body in [src/routes/+layout.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+layout.svelte).
+  - Explicitly handle lifecycle cleanups using Svelte's `onDestroy` to release the native listeners and timeouts cleanly.
+- Implemented cadence-based noise filtering to reject step updates that exceed a reasonable human speed threshold (4.0 steps/sec) such as rapid shaking.
+- Stripped all CSS styling tags and imports from [src/routes/+layout.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+layout.svelte), ensuring pure raw HTML.
+- Rewrote [src/routes/+page.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+page.svelte) using standard vanilla JS to update elements (e.g. `document.getElementById`) inside Svelte's client-side `onMount`, avoiding reactive state variables or template conditionals (`{#if}`).
+- Changed the initial warming up text to the more meaningful `"Awaiting movement..."`.
+- Added a 5-second timer triggered on step events. If no step events are received for 5 seconds, the status updates to `"Stationary"`, indicating the native sensor is no longer actively sending events.
+- Imported `Capacitor` from `@capacitor/core` and used `Capacitor.isNativePlatform()` to check if the platform is native before attempting to initialize or invoke methods from `@capgo/capacitor-pedometer`. If it is running on the web, the app bypasses the native plugin entirely and proceeds directly to mock mode, preventing the "Not implemented on web" error message from displaying under the steps count.
+- Removed the mock simulation/counting mode completely. The app now displays `0000` with the status `'Step sensor not available on web'` when running on the web, `'Permission denied'` when activity recognition permission is denied, and `'Step sensor not available'` if the step counter sensor check fails. No step counting or tracking occurs under any circumstances unless motion events are explicitly triggered from the native step sensor plugin.
+- Created `WalkifyPermissionsPlugin.kt` — a custom Capacitor plugin in Kotlin that exposes `checkPermissions()`, `openUsageAccessSettings()`, `openOverlaySettings()`, `openAccessibilitySettings()`, and `openNotificationSettings()` methods to the JS layer. Checks use `AppOpsManager` for usage stats, `Settings.canDrawOverlays()` for overlay, `Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES` for accessibility, and `PackageManager.PERMISSION_GRANTED` for notifications.
+- Registered `WalkifyPermissionsPlugin` in `MainActivity.java` and added `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_SPECIAL_USE`, `POST_NOTIFICATIONS`, `SYSTEM_ALERT_WINDOW`, and `PACKAGE_USAGE_STATS` to `AndroidManifest.xml` with the `tools` namespace for lint suppression.
+- Added a "Permissions Setup" section to `+page.svelte` with 4 articles (one per permission), each showing the current grant status and a button that opens the correct Android settings screen. A "Refresh All" button re-checks all permissions after returning from settings.
+- Opened Android Studio via Capacitor CLI command (`npx cap open android`) at the user's request.
+- Rewrote WalkifyPermissionsPlugin from Kotlin to Java to resolve compilation issues in the standard Java-based Android project.
+- Updated +page.svelte to statically import registerPlugin and resolve potential initialization race conditions.
+- Added robust web fallback (alerts and onscreen error message updates) for the permission buttons to ensure visual feedback during testing.
+- Ran production build and synced updated assets to Android Studio.
+- Created accessibility_service_config.xml and added string resource for Accessibility Service description.
+- Implemented WalkifyAccessibilityService.java to handle system window state events.
+- Registered WalkifyAccessibilityService service in AndroidManifest.xml to make it discoverable in Android's Accessibility settings screen.
+- Compiled project successfully using Gradle debug build.
+- Lowered MIN_CADENCE to 0.5 steps/sec and added timeDiffSec gating to validateStepEvent to handle sensor event batching and pause recovery without false positives.
+- Re-built and synced updated web client files to the Android native project.
+- Major codebase revamp into separate pages and clean library modules:
+  - Created src/lib/permissions.js: all permission definitions (6 steps), check/request/open helpers, web-bypass for non-native platforms.
+  - Created src/lib/stepTracker.js: self-contained step tracker factory with full anti-cheat logic; communicates via onUpdate callback.
+  - Rewrote src/routes/+page.svelte: entry redirector — checks all permissions on mount, goes to /setup or /home.
+  - Created src/routes/setup/+page.svelte: permission onboarding wizard — loads only un-granted steps, one permission per screen with title+reason in h1/p, 'Grant'/'Open Settings'/'Check Again' buttons, auto-advances to /home when all done.
+  - Created src/routes/home/+page.svelte: step counter in h1, metrics in a plain table, all DOM updates via vanilla JS in tracker callback.
+  - Added fallback: 'index.html' to adapter-static config (SPA mode) to support client-side routing across /setup and /home.
+  - Added per-page +page.js files to disable prerendering for runtime-dependent pages.
+- Answered the user's question regarding background step tracking with a persistent notification (via Android Foreground Service), outlining the architecture and awaiting confirmation to proceed.
