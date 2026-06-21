@@ -91,3 +91,14 @@
 - Implemented corresponding Capacitor plugin endpoints in `WalkifyPermissionsPlugin.java` and their JS helper bindings in `src/lib/permissions.js`.
 - Rewrote `src/routes/home/+page.svelte` in Svelte 5 to manage the service, view real-time steps and minutes parsed from the native background service, configure blocked apps, and provide test buttons to add or clear minutes.
 - Verified successful clean build, synced assets, successfully compiled Java sources via Gradle (`./gradlew compileDebugJavaWithJavac`), and pushed all commits to the remote GitHub repository.
+
+## Updates - 2026-06-21 (Continued)
+- Solved app blocking screen flickering issue by transitioning from window manager overlay to native Activity launching:
+  - Modified [WalkifyAccessibilityService.java](file:///home/hari/junk/code/web/walkify/android/app/src/main/java/com/example/walkify/WalkifyAccessibilityService.java) to launch `MainActivity` when a blocked application is accessed and minutes are <= 0.0.
+  - Modified [WalkifyAccessibilityService.java](file:///home/hari/junk/code/web/walkify/android/app/src/main/java/com/example/walkify/WalkifyAccessibilityService.java) to ignore updates of the foreground package when it is our own app, ensuring the last recorded foreground app remains correct.
+  - Modified [WalkifyForegroundService.java](file:///home/hari/junk/code/web/walkify/android/app/src/main/java/com/example/walkify/WalkifyForegroundService.java) to launch `MainActivity` when minutes decrement to <= 0.0 instead of showing the overlay.
+  - Updated `getBalance()` method in [WalkifyPermissionsPlugin.java](file:///home/hari/junk/code/web/walkify/android/app/src/main/java/com/example/walkify/WalkifyPermissionsPlugin.java) to return the current foreground package name and blocking status.
+  - Created a dedicated raw, semantic blocked page: [src/routes/blocked/+page.svelte](file:///home/hari/junk/code/web/walkify/src/routes/blocked/+page.svelte) and [src/routes/blocked/+page.js](file:///home/hari/junk/code/web/walkify/src/routes/blocked/+page.js).
+  - Modified [src/routes/+layout.svelte](file:///home/hari/junk/code/web/walkify/src/routes/+layout.svelte) to check block status periodically, on visibility change, and on initial mount, automatically routing to `/blocked` when appropriate.
+  - Recompiled the web application, ran `npx cap sync` to update native Android resources, verified clean compilation via Gradle `./gradlew compileDebugJavaWithJavac`, committed changes, and pushed them to GitHub repository.
+
